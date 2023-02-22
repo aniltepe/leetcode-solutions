@@ -1,0 +1,39 @@
+def findMedianSortedArrays(nums1, nums2):
+    def insertSorted(nums, num):
+        start = 0
+        midIdx = 0
+        end = len(nums) - 1
+        if nums[start] >= num:
+            nums.insert(start, num)
+            return nums
+        if nums[end] <= num:
+            nums.append(num)
+            return nums
+        while start + 1 < end:
+            midIdx = int(start + end / 2)
+            if nums[midIdx] > num:
+                end = midIdx
+            elif nums[midIdx] <  num:
+                start = midIdx
+            else:
+                nums.insert(midIdx, num)
+                return nums
+        if nums[midIdx] == num:
+            nums.insert(midIdx, num)
+        elif nums[midIdx] > num:
+            nums.insert(midIdx, num)
+        elif nums[midIdx] < num:
+            nums.insert(midIdx + 1, num)
+        return nums
+
+    sorted = nums1
+    for n in nums2:
+        sorted = insertSorted(sorted, n)
+    print(sorted)
+    middle = int(len(sorted) / 2)
+    if len(sorted) % 2 == 0:
+        return (sorted[middle - 1] + sorted[middle]) / 2.0
+    else:
+        return sorted[middle]
+
+print(findMedianSortedArrays([1,2,3,5,6],[4]))
